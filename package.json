@@ -1,0 +1,66 @@
+{
+  "name": "thelibrary",
+  "version": "1.0.0",
+  "description": "demo to condor labs",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel src -d dist --source-maps",
+    "start": "nodemon src/index.js --exec babel-node",
+    "serve": "node dist/index.js",
+    "clean": "rimraf dist",
+    "lint": "eslint .",
+    "format": "prettier \"**/*.{js,jsx,ts,tsx}\" --write",
+    "lint-global": "echo \"Prettier is running...\" && prettier \"**/*.{js,jsx,ts,tsx}\" --write && echo \"ESlint is running...\" && eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apenaCondorLabs/theLibrary.git"
+  },
+  "dependencies": {
+    "@babel/node": "^7.16.0",
+    "@condor-labs/health-middleware": "^1.1.2",
+    "@condor-labs/logger": "^1.1.0",
+    "@condor-labs/mongodb": "^1.1.2",
+    "@condor-labs/redis": "^1.0.4",
+    "express": "^4.17.1",
+    "express-graphql": "^0.12.0",
+    "graphql": "^15.8.0",
+    "graphql-tools": "^8.2.0",
+    "jest": "^27.4.5",
+    "redis": "^4.0.1",
+    "rimraf": "^3.0.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.16.0",
+    "@babel/core": "~7.15.5",
+    "@babel/eslint-parser": "~7.15.4",
+    "@babel/plugin-transform-runtime": "~7.15.0",
+    "@babel/preset-env": "^7.16.4",
+    "@condor-labs/eslint-config": "1.2.0",
+    "@condor-labs/matchbox": "1.4.0",
+    "@condor-labs/prettier-config": "1.1.0",
+    "eslint": "7.23.0",
+    "eslint-config-prettier": "~8.3.0",
+    "eslint-config-standard": "~16.0.3",
+    "eslint-plugin-import": "~2.24.2",
+    "eslint-plugin-node": "~11.1.0",
+    "eslint-plugin-prettier": "~3.4.1",
+    "eslint-plugin-promise": "~5.1.0",
+    "husky": "7.0.4",
+    "lint-staged": "10.5.4",
+    "nodemon": "^2.0.15",
+    "prettier": "2.5.1"
+  },
+  "author": "armando peña",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/apenaCondorLabs/theLibrary/issues"
+  },
+  "homepage": "https://github.com/apenaCondorLabs/theLibrary#readme",
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint",
+      "prettier --write"
+    ]
+  }
+}
