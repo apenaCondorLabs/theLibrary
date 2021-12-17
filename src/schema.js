@@ -3,7 +3,10 @@ import { resolvers } from './resolvers';
 
 const typeDefs = `
     type Query {
-        Books: [Book]
+        Books: [Book],
+        BookById(_id: ID):Book,
+        BookByAuthor(author: String!):[Book]
+        BookByTitle(title: String!):[Book]
     }
 
     type Book {

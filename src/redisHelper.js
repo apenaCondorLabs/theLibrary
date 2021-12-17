@@ -1,27 +1,42 @@
 import redis from "@condor-labs/redis";
 
 const settings = {
-    prefix: 'Books',
-    host: 'localhost',
+    host: 'redis',
     port: 6379
 };
 const keyName = 'Books';
 
 const connectRedis = redis(settings);
-
+let client;
+let redisBatch;
 const helper = {
     connectRedis: async () => {
       try {
-        let client = await connectRedis.getClient();
-        const redisBatch = client.batch();
-        await redisBatch.set(keyName);
-        return connectRedis;
+        client = await connectRedis.getClient();
+        redisBatch = client.batch();
       } catch (e) {
         console.log(e);
       }
     },
-    getClient: () => {
-        return connectRedis.getClient();
+    setData: async (key, data) => {
+        try {
+            await redisBatch.set(key, JSON.stringify(data));
+            return redisBatch.execAsync();
+        } catch (e) {
+            console.log(e);
+        }
+    },
+    getData: async (key) => {
+        await redisBatch.get(key);
+        return redisBatch.execAsync();
+    },
+    addData: async (key ,data) => {
+        await redisBatch.hset(key, JSON.stringify(data));
+        return redisBatch.execAsync();
+    },
+    deleteData: async (key) => {
+        await redisBatch.expire(key, 1);
+        return redisBatch.execAsync();
     }
   };
   

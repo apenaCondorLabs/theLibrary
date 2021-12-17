@@ -1,0 +1,33 @@
+version: "3.1"
+services:
+  mongo:
+    image: mongo
+    container_name: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 123456
+    ports:
+      - 27017:27017
+    networks:
+      - app
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - 6379:6379
+    networks:
+      - app
+  web:
+    build: .
+    command: npm start
+    depends_on:
+      - image
+    ports:
+      - 80:3000
+    networks:
+      - app
+    volumes:
+      - ./app:/opt/app
+networks:
+  app:
+    driver: "bridge"

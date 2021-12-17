@@ -1,6 +1,8 @@
 FROM node:16
 
-WORKDIR /usr/src/app
+ARG HOME_DIR="/app"
+
+WORKDIR $HOME_DIR
 
 COPY package*.json ./
 
@@ -10,4 +12,4 @@ COPY . .
 
 EXPOSE 3000
 
-CMD [ "node", "server.js" ]
+CMD [ "npm", "start" ]

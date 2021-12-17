@@ -1,7 +1,7 @@
 "use strict";
 
 const mongoDbSettings = {
-  host: "localhost",
+  host: "mongo",
   port: 27017,
   database: "books",
   user: "root",
