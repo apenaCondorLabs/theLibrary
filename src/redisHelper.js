@@ -1,10 +1,12 @@
 import redis from "@condor-labs/redis";
+import env from "dotenv";
+
+env.config();
 
 const settings = {
-    host: 'redis',
-    port: 6379
+    host: process.env.HOSTREDIS,
+    port: process.env.PORTREDIS
 };
-const keyName = 'Books';
 
 const connectRedis = redis(settings);
 let client;
@@ -20,8 +22,10 @@ const helper = {
     },
     setData: async (key, data) => {
         try {
-            await redisBatch.set(key, JSON.stringify(data));
-            return redisBatch.execAsync();
+            if(data.length > 0) {
+                await redisBatch.set(key, JSON.stringify(data));
+                return redisBatch.execAsync();
+            }
         } catch (e) {
             console.log(e);
         }
@@ -31,13 +35,23 @@ const helper = {
         return redisBatch.execAsync();
     },
     addData: async (key ,data) => {
-        await redisBatch.hset(key, JSON.stringify(data));
-        return redisBatch.execAsync();
+        if(data.length > 0) {
+            await redisBatch.hset(key, JSON.stringify(data));
+            return redisBatch.execAsync();
+        }
     },
     deleteData: async (key) => {
         await redisBatch.expire(key, 1);
         return redisBatch.execAsync();
-    }
+    },
+    clearAll: async () => {
+        try {
+            await redisBatch.flushdb();
+            await redisBatch.execAsync();
+        } catch (e) {
+            console.log(e);
+        }
+    } 
   };
   
   module.exports = helper;

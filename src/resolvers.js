@@ -2,9 +2,10 @@ import Book from "./Models/Book";
 import mongo from "./mongoHelper";
 import redis from "./redisHelper";
 
-mongo.getClient();
-
 let books;
+
+mongo.connect();
+mongo.getClient();
 
 export const resolvers = {
 	Query: {
@@ -24,6 +25,7 @@ export const resolvers = {
 			}
 		},
 		BookById: async (_, { _id }) => {
+			connect();
 			await redis.connectRedis();
 			let results = await redis.getData(_id);
 			if(results[0] == null)  {
@@ -35,6 +37,7 @@ export const resolvers = {
 			}
 		},
 		BookByAuthor: async (_, { author }) => {
+			connect();
 			await redis.connectRedis();
 			let results = await redis.getData(author);
 			if(results[0] == null)  {
@@ -46,6 +49,7 @@ export const resolvers = {
 			}
 		},
 		BookByTitle: async (_, { title }) => {
+			connect();
 			await redis.connectRedis();
 			let results = await redis.getData(title);
 			if(results[0] == null)  {
@@ -57,35 +61,36 @@ export const resolvers = {
 			}
 		}
 	},
-  Mutation: {
-    createBook: async (_, { input }) => {
-		try {
-			await redis.connectRedis();
-			await redis.deleteData("Books");
-			const newBook = new Book(input);
-			await newBook.save();
-			return newBook;
-		} catch (error) {
-			console.log(error)
-		}
-    },
-    deleteBook: async (_, { _id }) => {
-		try {
-			await redis.connectRedis();
-			await redis.deleteData("Books");
-			return Book.findByIdAndDelete(_id);
-		} catch (error) {
-			console.log(error)
-		}
-    },
-    updateBook: async (_, { _id, input }) => {
-		try {
-			await redis.connectRedis();
-			await redis.deleteData("Books");
-			return Book.findByIdAndUpdate(_id, input, { new: true });
-		} catch (error) {
-			console.log(error)
-		}
-    },
-  },
+	Mutation: {
+		createBook: async (_, { input }) => {
+			try {
+				input.status = "AVAILABLE";
+				await redis.connectRedis();
+				await redis.clearAll();
+				const newBook = new Book(input);
+				await newBook.save();
+				return newBook;
+			} catch (error) {
+				console.log(error)
+			}
+		},
+		deleteBook: async (_, { _id }) => {
+			try {
+				await redis.connectRedis();
+				await redis.clearAll();
+				return Book.findByIdAndDelete(_id);
+			} catch (error) {
+				console.log(error)
+			}
+		},
+		updateBook: async (_, { _id, input }) => {
+			try {
+				await redis.connectRedis();
+				await redis.clearAll();
+				return Book.findByIdAndUpdate(_id, input, { new: true });
+			} catch (error) {
+				console.log(error)
+			}
+		},
+	},
 };

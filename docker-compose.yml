@@ -10,6 +10,8 @@ services:
       - 27017:27017
     networks:
       - app
+    volumes:
+      - ~/mongo/data:/data/db
   redis:
     image: redis
     container_name: redis
@@ -17,6 +19,8 @@ services:
       - 6379:6379
     networks:
       - app
+    volumes:
+      - ~/redis/data:/data/dbredis
   web:
     build: .
     command: npm start

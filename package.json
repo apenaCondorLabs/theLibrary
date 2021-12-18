@@ -10,7 +10,8 @@
     "clean": "rimraf dist",
     "lint": "eslint .",
     "format": "prettier \"**/*.{js,jsx,ts,tsx}\" --write",
-    "lint-global": "echo \"Prettier is running...\" && prettier \"**/*.{js,jsx,ts,tsx}\" --write && echo \"ESlint is running...\" && eslint ."
+    "lint-global": "echo \"Prettier is running...\" && prettier \"**/*.{js,jsx,ts,tsx}\" --write && echo \"ESlint is running...\" && eslint .",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -22,20 +23,24 @@
     "@condor-labs/logger": "^1.1.0",
     "@condor-labs/mongodb": "^1.1.2",
     "@condor-labs/redis": "^1.0.4",
+    "@shelf/jest-mongodb": "^2.1.1",
+    "babel-jest": "^27.4.5",
+    "chai": "^4.3.4",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-graphql": "^0.12.0",
     "graphql": "^15.8.0",
     "graphql-tools": "^8.2.0",
-    "jest": "^27.4.5",
     "redis": "^4.0.1",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "sinon": "^12.0.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.16.0",
     "@babel/core": "~7.15.5",
     "@babel/eslint-parser": "~7.15.4",
     "@babel/plugin-transform-runtime": "~7.15.0",
-    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-env": "^7.16.5",
     "@condor-labs/eslint-config": "1.2.0",
     "@condor-labs/matchbox": "1.4.0",
     "@condor-labs/prettier-config": "1.1.0",
@@ -47,6 +52,7 @@
     "eslint-plugin-prettier": "~3.4.1",
     "eslint-plugin-promise": "~5.1.0",
     "husky": "7.0.4",
+    "jest": "^27.4.5",
     "lint-staged": "10.5.4",
     "nodemon": "^2.0.15",
     "prettier": "2.5.1"

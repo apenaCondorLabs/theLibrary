@@ -17,16 +17,28 @@ const typeDefs = `
         pages: Int!
     }
 
+    enum Status {
+        LENT
+        AVAILABLE
+        UNAVAILABLE
+    }
+
     type Mutation {
-        createBook(input: BookInput): Book,
+        createBook(input: BookCreate): Book,
         deleteBook(_id: ID): Book,
         updateBook(_id: ID, input: BookInput): Book
+    }
+
+    input BookCreate {
+        title: String!,
+        author: String!,
+        pages: Int!
     }
 
     input BookInput {
         title: String!,
         author: String!,
-        status: String!,
+        status: Status!,
         pages: Int!
     }
 `;
