@@ -1,6 +1,4 @@
-on: 
-  push:
-    branches: [develop]
+on: push
 name: deploy
 jobs:
   build-and-push:
