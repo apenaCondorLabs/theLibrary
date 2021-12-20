@@ -10,7 +10,7 @@ const mongoDbSettings = {
   user: process.env.USERMONGO,
   password: process.env.PASSWORDMONGO,
   ssl: false,
-  authSource: process.env.AUTHSOURCEMONGO
+  authSource: process.env.AUTHSOURCEMONGO,
 };
 
 const mongo = mongoLabs(mongoDbSettings);
@@ -25,7 +25,6 @@ const helper = {
       
       let client = await mongo.getClient();
       helper.clients = client;
-      console.log('>>> DB is connected');
       return mongo;
     } catch (e) {
       console.log(e);
@@ -33,6 +32,9 @@ const helper = {
   },
   getClient: async () => {
 			await mongo.getClient();
+  },
+  closed: async () => {
+    await mongo.mongoose.connection.close();
   }
 };
 

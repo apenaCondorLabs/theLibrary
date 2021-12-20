@@ -24,6 +24,7 @@ services:
   web:
     build: .
     command: npm start
+    container_name: the_library
     depends_on:
       - image
     ports:
