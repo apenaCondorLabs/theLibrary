@@ -4,8 +4,8 @@ import env from "dotenv";
 env.config();
 
 const settings = {
-    host: process.env.HOSTREDIS,
-    port: process.env.PORTREDIS
+    host: "redis",
+    port: 6379
 };
 
 const connectRedis = redis(settings);
