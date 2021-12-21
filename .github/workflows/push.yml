@@ -20,4 +20,4 @@ docker-build-master:
     - docker tag $CI_REGISTRY/${CI_PROJECT_PATH}:$TAG $CI_REGISTRY/${CI_PROJECT_PATH}:latest
     - docker push $CI_REGISTRY/${CI_PROJECT_PATH}:latest
   only:
-    - develop
+    - feature/ci/cd
