@@ -4,13 +4,13 @@ import env from "dotenv";
 env.config();
 
 const mongoDbSettings = {
-  host: "mongo",
-  port: "27017",
-  database: "books",
-  user: "root",
-  password: "123456",
+  host: process.env.HOSTMONGO,
+  port: process.env.PORTMONGO,
+  database: process.env.DATABASEMONGO,
+  user: process.env.USERMONGO,
+  password: process.env.PASSWORDMONGO,
   ssl: false,
-  authSource: "admin",
+  authSource: process.env.AUTHSOURCEMONGO,
 };
 
 const mongo = mongoLabs(mongoDbSettings);
