@@ -4,13 +4,12 @@ import redis from './redisHelper';
 
 let books;
 
-mongo.connect();
-mongo.getClient();
-
 export const resolvers = {
   Query: {
     Books: async () => {
       try {
+        await mongo.connect();
+        await mongo.getClient();
         await redis.connectRedis();
         let results = await redis.getData('Books');
         if (results[0] == null) {
@@ -25,6 +24,8 @@ export const resolvers = {
       }
     },
     BookById: async (_, { _id }) => {
+      await mongo.connect();
+      await mongo.getClient();
       await redis.connectRedis();
       let results = await redis.getData(_id);
       if (results[0] == null) {
@@ -36,7 +37,8 @@ export const resolvers = {
       }
     },
     BookByAuthor: async (_, { author }) => {
-      connect();
+      await mongo.connect();
+      await mongo.getClient();
       await redis.connectRedis();
       let results = await redis.getData(author);
       if (results[0] == null) {
@@ -48,7 +50,8 @@ export const resolvers = {
       }
     },
     BookByTitle: async (_, { title }) => {
-      connect();
+      await mongo.connect();
+      await mongo.getClient();
       await redis.connectRedis();
       let results = await redis.getData(title);
       if (results[0] == null) {
@@ -61,7 +64,7 @@ export const resolvers = {
     },
   },
   Mutation: {
-    createBook: async (_, { input }) => {
+    createBook: async ({ input }) => {
       try {
         input.status = 'AVAILABLE';
         await redis.connectRedis();
@@ -73,8 +76,10 @@ export const resolvers = {
         throw Error(error);
       }
     },
-    deleteBook: async (_, { _id }) => {
+    deleteBook: async ({ _id }) => {
       try {
+        await mongo.connect();
+        await mongo.getClient();
         await redis.connectRedis();
         await redis.clearAll();
         return Book.findByIdAndDelete(_id);
@@ -82,8 +87,10 @@ export const resolvers = {
         throw Error(error);
       }
     },
-    updateBook: async (_, { _id, input }) => {
+    updateBook: async ({ _id, input }) => {
       try {
+        await mongo.connect();
+        await mongo.getClient();
         await redis.connectRedis();
         await redis.clearAll();
         return Book.findByIdAndUpdate(_id, input, { new: true });

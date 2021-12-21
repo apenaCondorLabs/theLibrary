@@ -4,8 +4,8 @@ import env from "dotenv";
 env.config();
 
 const settings = {
-    host: "redis",
-    port: 6379
+    host: process.env.HOSTREDIS,
+    port: process.env.PORTREDIS
 };
 
 const connectRedis = redis(settings);
@@ -51,7 +51,10 @@ const helper = {
         } catch (e) {
             console.log(e);
         }
-    } 
+    },
+    quit: async () => {
+        await redisBatch.quit();
+    }
   };
   
   module.exports = helper;

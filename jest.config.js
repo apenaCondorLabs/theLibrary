@@ -4,7 +4,6 @@
  */
 
 module.exports = {
-  preset: "@shelf/jest-mongodb",
   testEnvironment: 'node',
   // All imported modules in your tests should be mocked automatically
   // automock: false,
