@@ -15,5 +15,5 @@ jobs:
           docker tag back ${{ secrets.DOCKER_USERNAME }}/back:latest
       - name: Push
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/back:${{ github.sha }}
-          docker push ${{ secrets.DOCKER_USERNAME }}/back:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/thelibrary_web:${{ github.sha }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/thelibrary_web:latest
