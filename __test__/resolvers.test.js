@@ -6,14 +6,11 @@ import Book from "./../src/Models/Book";
 
 describe("Test of resolvers", () => {
     const book = {"title": "Bob", "author": "Bob", "pages": 1, status: "AVAILABLE"};
-    let id;
 
     beforeEach(async () => {
         await mongo.connect();
         await mongo.getClient();
-        let newBook = new Book(book);
-        id = newBook._id;
-        await newBook.save();
+        await Book.remove();
         await redis.connectRedis();
     });
 
@@ -23,17 +20,24 @@ describe("Test of resolvers", () => {
     });
 
     test("Create a book", async() => {
-        let data = await resolvers.Mutation.createBook({input: book});
+        let data = await resolvers.Mutation.createBook(null, {input: book});
         expect(data.id != null).toEqual(true);
     });
 
     test("Update a book", async() => {
-        let data = await resolvers.Mutation.updateBook({_id: id, input: book});
+        let newBook = new Book(book);
+        let id = newBook._id;
+        await newBook.save();
+        book.title = `${book.title} update`
+        let data = await resolvers.Mutation.updateBook(null, {_id: id, input: book});
         expect(data.id != null).toEqual(true);
     });
 
     test("Delete a book", async () => {
-        let data = await resolvers.Mutation.deleteBook({_id: id});
+        let newBook = new Book(book);
+        let id = newBook._id;
+        await newBook.save();
+        let data = await resolvers.Mutation.deleteBook(null, {_id: id});
         expect(data.id != null).toEqual(true);
     });
 });

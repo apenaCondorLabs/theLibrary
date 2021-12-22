@@ -20,7 +20,7 @@ export const resolvers = {
           return JSON.parse(results);
         }
       } catch (error) {
-        throw Error(error);
+        throw new Error(error);
       }
     },
     BookById: async (_, { _id }) => {
@@ -64,19 +64,24 @@ export const resolvers = {
     },
   },
   Mutation: {
-    createBook: async ({ input }) => {
+    createBook: async (_, { input }) => {
       try {
         input.status = 'AVAILABLE';
         await redis.connectRedis();
         await redis.clearAll();
-        const newBook = new Book(input);
-        await newBook.save();
-        return newBook;
+        await mongo.connect();
+        await mongo.getClient();
+        if(await Book.countDocuments({ title : input.title }) === 0 ){
+          const newBook = new Book(input);
+          await newBook.save();
+          return newBook;
+        }
+        throw new Error("This title is in database");
       } catch (error) {
-        throw Error(error);
+        throw new Error(error);
       }
     },
-    deleteBook: async ({ _id }) => {
+    deleteBook: async (_, { _id }) => {
       try {
         await mongo.connect();
         await mongo.getClient();
@@ -84,18 +89,21 @@ export const resolvers = {
         await redis.clearAll();
         return Book.findByIdAndDelete(_id);
       } catch (error) {
-        throw Error(error);
+        throw new Error(error);
       }
     },
-    updateBook: async ({ _id, input }) => {
+    updateBook: async (_, { _id, input }) => {
       try {
         await mongo.connect();
         await mongo.getClient();
         await redis.connectRedis();
         await redis.clearAll();
-        return Book.findByIdAndUpdate(_id, input, { new: true });
+        if(await Book.countDocuments({ title : input.title }) === 0 ){
+          return Book.findByIdAndUpdate(_id, input, { new: true });
+        }
+        throw new Error("This title is in database");
       } catch (error) {
-        throw Error(error);
+        throw new Error(error);
       }
     },
   },
