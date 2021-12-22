@@ -24,7 +24,7 @@ services:
   web:
     build: .
     command: npm start
-    container_name: the_library
+    container_name: thelibrary
     depends_on:
       - mongo
       - redis
