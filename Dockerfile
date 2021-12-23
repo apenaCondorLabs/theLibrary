@@ -1,4 +1,4 @@
-FROM node:16
+FROM node:alpine
 
 ARG HOME_DIR="/app"
 
