@@ -1,4 +1,5 @@
 import mongoLabs from "@condor-labs/mongodb";
+import logger from "@condor-labs/logger";
 import env from "dotenv";
 
 env.config();
@@ -27,7 +28,7 @@ const helper = {
       helper.clients = client;
       return mongo;
     } catch (e) {
-      console.log(e);
+      logger.error(e);
     }
   },
   getClient: async () => {

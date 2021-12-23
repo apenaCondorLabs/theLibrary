@@ -1,7 +1,7 @@
 import Book from './Models/Book';
 import mongo from './mongoHelper';
 import redis from './redisHelper';
-
+import logger from '@condor-labs/logger';
 let books;
 
 export const resolvers = {
@@ -20,6 +20,7 @@ export const resolvers = {
           return JSON.parse(results);
         }
       } catch (error) {
+        logger.error(error);
         throw new Error(error);
       }
     },
@@ -77,7 +78,9 @@ export const resolvers = {
           return newBook;
         }
         throw new Error("This title is in database");
+        logger.log("This title is in database");
       } catch (error) {
+        logger.error(error);
         throw new Error(error);
       }
     },
@@ -89,6 +92,7 @@ export const resolvers = {
         await redis.clearAll();
         return Book.findByIdAndDelete(_id);
       } catch (error) {
+        logger.error(error);
         throw new Error(error);
       }
     },
@@ -102,7 +106,9 @@ export const resolvers = {
           return Book.findByIdAndUpdate(_id, input, { new: true });
         }
         throw new Error("This title is in database");
+        logger.log("This title is in database");
       } catch (error) {
+        logger.error(error);
         throw new Error(error);
       }
     },

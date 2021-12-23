@@ -6,10 +6,14 @@ WORKDIR $HOME_DIR
 
 COPY package*.json ./
 
-RUN npm install
+RUN npm install -g pm2
+
+RUN npm install 
 
 COPY . .
 
+RUN npm run build
+
 EXPOSE 3000
 
-CMD [ "npm", "start" ]
+CMD [ "pm2-runtime", "start", "pm2.json" ]
