@@ -1,11 +1,16 @@
 import express from "express";
+import "core-js/stable";
+import "regenerator-runtime/runtime";
+import { healthMonitor } from "@condor-labs/health-middleware";
 import { graphqlHTTP } from "express-graphql";
 import schema from "./schema";
+import healthConfig from "./healthMiddlewareConfig";
 import env from "dotenv"
 
+env.config();
 const app = express();
 
-env.config();
+healthMonitor(app, healthConfig);
 
 app.use(
   "/",

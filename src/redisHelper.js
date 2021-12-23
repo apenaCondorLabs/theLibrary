@@ -1,4 +1,5 @@
 import redis from "@condor-labs/redis";
+import logger from "@condor-labs/logger";
 import env from "dotenv";
 
 env.config();
@@ -17,7 +18,7 @@ const helper = {
         client = await connectRedis.getClient();
         redisBatch = client.batch();
       } catch (e) {
-        console.log(e);
+        logger.error(e);
       }
     },
     setData: async (key, data) => {
@@ -27,7 +28,7 @@ const helper = {
                 return redisBatch.execAsync();
             }
         } catch (e) {
-            console.log(e);
+            logger.error(e);
         }
     },
     getData: async (key) => {
@@ -49,7 +50,7 @@ const helper = {
             await redisBatch.flushdb();
             await redisBatch.execAsync();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
         }
     },
     quit: async () => {
