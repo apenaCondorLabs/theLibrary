@@ -23,7 +23,6 @@ services:
       - ~/redis/data:/data/dbredis
   web:
     build: .
-    command: npm start
     container_name: thelibrary
     depends_on:
       - mongo
