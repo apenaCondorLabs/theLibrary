@@ -3,7 +3,7 @@ import "core-js/stable";
 import "regenerator-runtime/runtime";
 import { healthMonitor } from "@condor-labs/health-middleware";
 import { graphqlHTTP } from "express-graphql";
-import schema from "./service/schema";
+import schema from "./domain/schema";
 import healthConfig from "./utils/healthMiddlewareConfig";
 import env from "dotenv"
 
