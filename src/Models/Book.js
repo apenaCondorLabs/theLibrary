@@ -1,5 +1,4 @@
 const mongodb = require("@condor-labs/mongodb")();
-const helperMongo = require("./../mongoHelper");
 
 const BookSchema = mongodb.mongoose.Schema({
   title: {

@@ -21,9 +21,9 @@ const helper = {
         logger.error(e);
       }
     },
-    setData: async (key, data) => {
+    setData: async (key, data, length) => {
         try {
-            if(data.length > 0) {
+            if(length > 0) {
                 await redisBatch.set(key, JSON.stringify(data));
                 return redisBatch.execAsync();
             }

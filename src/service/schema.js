@@ -3,10 +3,10 @@ import { resolvers } from './resolvers';
 
 const typeDefs = `
     type Query {
-        Books: [Book],
+        Books(pageNumber: Int!): paginationBook,
         BookById(_id: ID):Book,
         BookByAuthor(author: String!):[Book]
-        BookByTitle(title: String!):[Book]
+        BookByTitle(title: String!): Book
     }
 
     type Book {
@@ -15,6 +15,18 @@ const typeDefs = `
         author: String!,
         status: String!,
         pages: Int!
+    }
+
+    type metadata {
+        page: Int!,
+        pageCount: Int!,
+        perPage: Int!,
+        totalCount: Int!
+    }
+
+    type paginationBook {
+        metadata: metadata
+        Books: [Book]
     }
 
     enum Status {
