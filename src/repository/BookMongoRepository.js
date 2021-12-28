@@ -46,19 +46,13 @@ module.exports = class BookMongoRepository {
     }
 
     async create(data) {
-      if(await this.Book.countDocuments({ title : data.title }) === 0 ){
-        const newBook = new this.Book(data);
-        await newBook.save();
-        return newBook;
-      }
-      throw new Error("This title is in database");
+      const newBook = new this.Book(data);
+      await newBook.save();
+      return newBook;
     }
 
     async update(id, data) {
-      if(await this.Book.countDocuments({ title : data.title }) === 0 ){
-        return this.Book.findByIdAndUpdate(id, data, { new: true });
-      }
-      throw new Error("This title is in database");
+      return this.Book.findByIdAndUpdate(id, data, { new: true });
     }
 
     async delete(id) {

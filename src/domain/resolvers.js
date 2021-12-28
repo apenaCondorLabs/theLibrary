@@ -67,10 +67,13 @@ export const resolvers = {
     createBook: async (_, { input }) => {
       try {
         input.status = 'AVAILABLE';
-        await bookRedisRepository.clearAll();
-        return await bookMongoRepository.create(input);
+        let data = await bookMongoRepository.find({ title : input.title });
+        if(data.length === 0 ){
+          await bookRedisRepository.clearAll();
+          return await bookMongoRepository.create(input);
+        }
+        throw new Error("This title is in database");
       } catch (error) {
-        logger.err(error);
         throw new Error(error);
       }
     },
@@ -85,10 +88,16 @@ export const resolvers = {
     },
     updateBook: async (_, { _id, input }) => {
       try {
-        await bookRedisRepository.clearAll();
-        return await bookMongoRepository.update(_id, input);
+        let data = await bookMongoRepository.find({ title : input.title });
+        let findBook = data.find(x => {
+          return x._id == _id
+        });
+        if(data.length === 0 || typeof(findBook) !== "undefined"){
+          await bookRedisRepository.clearAll();
+          return await bookMongoRepository.update(_id, input);
+        }
+        throw new Error("This title is in database");
       } catch (error) {
-        logger.err(error);
         throw new Error(error);
       }
     },
