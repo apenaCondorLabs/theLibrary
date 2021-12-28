@@ -12,10 +12,10 @@ module.exports = class BookMongoRepository {
     /*
       Find all paginate data 
     */
-    async findPaginate(query = null, pagNum) {
+    async findPaginate(query = null, pagNum, row = 10) {
       try {
-        let skips = 10 * (pagNum - 1);
-        return await this.Book.find(query).skip(skips).limit(10);
+        let skips = parseInt(row) * (parseInt(pagNum) - 1);
+        return await this.Book.find(query).skip(skips).limit(parseInt(row));
       } catch (error) {
         throw new Error(error);
       }

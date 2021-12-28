@@ -9,20 +9,20 @@ const bookRedisRepository = new BookRedisRepository();
 let results;
 export const resolvers = {
   Query: {
-    Books: async (_, { pageNumber }) => {
+    Books: async (_, { pageNumber, row }) => {
       try {
-        results = await bookRedisRepository.getData(`Books${pageNumber}`);
+        results = await bookRedisRepository.getData(`Books${pageNumber}-${row}`);
         if (results[0] == null) {
-          let Books = await bookMongoRepository.findPaginate(null, pageNumber);
+          let Books = await bookMongoRepository.findPaginate(null, pageNumber, row);
           let allData = await bookMongoRepository.find({});
           let metadata = {
             page: pageNumber,
             pageCount: allData.length / pageNumber,
-            perPage: 10,
+            perPage: row,
             totalCount: allData.length
           };
           let response = {metadata, Books};
-          await bookRedisRepository.setData(`Books${pageNumber}`, response, allData.length);
+          await bookRedisRepository.setData(`Books${pageNumber}-${row}`, response, Books.length);
           return response;
         } else {
           return JSON.parse(results);
