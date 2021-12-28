@@ -1,5 +1,5 @@
 
-import { resolvers } from "../src/service/resolvers";
+import { resolvers } from "../src/domain/resolvers";
 
 const book =  {
     "_id": "61ca5837faab2e06f0be6eb0",
