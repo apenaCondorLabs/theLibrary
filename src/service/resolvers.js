@@ -17,7 +17,7 @@ export const resolvers = {
           let allData = await bookMongoRepository.find({});
           let metadata = {
             page: pageNumber,
-            pageCount: allData.length / pageNumber,
+            pageCount: Math.round(allData.length / pageNumber),
             perPage: row,
             totalCount: allData.length
           };
