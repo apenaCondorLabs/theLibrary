@@ -24,7 +24,6 @@ jest.mock('../src/repository/BookRedisRepository', () => () => ({
 }));
 
 describe("Test of resolvers", () => {
-    const id = "61ca5837faab2e06f0be6eb0";
 
     test("Create a book", async() => {
         let data = await resolvers.Mutation.createBook(null, {input: book});
